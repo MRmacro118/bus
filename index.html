@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket's</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header, .content, .footer {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header {
+            background-color: #fff;
+            padding: 20px;
+            text-align: right;
+        }
+
+        .header span {
+            font-weight: bold;
+        }
+
+        .content {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .footer {
+            background-color: #fff2;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <span id="time"></span>
+    </div>
+
+    <div class="content">
+        <span id="text">This is the text you want to display.</span>
+    </div>
+
+    <div class="footer">
+        <span id="location">You are currently in Kozhikode, India.</span>
+    </div>
+
+    <script>
+        // Get the current time
+        let date = new Date();
+        let time = date.toLocaleTimeString();
+
+        // Display the time in the upper right corner
+        document.getElementById('time').innerHTML = time;
+
+        // Get the location from the browser
+        let location = navigator.geolocation;
+
+        // Check if location is supported
+        if (location) {
+            // Get the current location
+            location.getCurrentPosition(showLocation, showError);
+        } else {
+            document.getElementById('location').innerHTML = "Geolocation is not supported by this browser.";
+        }
+
+        // Display the location in the lower center
+        function showLocation(position) {
+            let latitude = position.coords.latitude;
+            let longitude = position.coords.longitude;
+
+            // Use Google Maps API to get the address from the coordinates
+            // https://developers.google.com/maps/documentation/javascript/geocoding
+            let address = ""; // Replace with the actual address from Google Maps API
+
+            document.getElementById('location').innerHTML = "You are currently at: " + address;
+        }
+
+        // Display an error message if location cannot be retrieved
+        function showError(error) {
+            document.getElementById('location').innerHTML = "Error retrieving location: " + error.message;
+        }
+
+        // Refresh the page every 5 seconds
+        setTimeout(function() {
+            location.reload();
+        }, 5000); // 5000 milliseconds = 5 seconds
+    </script>
+</body>
+</html>
